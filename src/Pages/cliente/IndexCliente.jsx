@@ -153,14 +153,14 @@ export default function IndexCliente() {
                 <div key={producto.id_producto} className={index < 2 ? "col wow animate__animated animate__fadeInLeft" : "col wow animate__animated animate__fadeInRight"}>
                   <div className="card text-center shadow position-relative">
                     <img
-                      src={`${producto.pro_foto}`}
+                      src={producto.pro_foto}
                       height={200}
                       className="card-img-top border-bottom border-1"
                       alt={producto.pro_foto}
                     />
                     <div className="card-body">
                       <h5 className="card-title fs-sm-5">{producto.pro_nom}</h5>
-                      <p>Lo has comprado {producto.cantidad_vendida} veces</p>
+                      <p>Lo has comprado {producto.cantidad_vendida <= 1 ? `${producto.cantidad_vendida} vez` : `${producto.cantidad_vendida} veces`}</p>
                     </div>
                   </div>
                 </div>
