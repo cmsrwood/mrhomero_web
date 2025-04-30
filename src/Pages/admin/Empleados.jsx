@@ -253,7 +253,7 @@ export default function Empleados() {
           description: 'Si deseas ver el tutorial de nuevo pulsa aqui',
         }
       }
-        
+
     ]
   })
 
@@ -314,12 +314,13 @@ export default function Empleados() {
                         <input type="date" name="registro" value={emp.registro} id="" className="form-control my-2" onChange={handleChange} />
                       </div>
                     </div>
+                    <div className="modal-footer">
+                      <button id='cerrar' type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                      <button id='crear' type="submit" className="btn btn-warning" >Confirmar</button>
+                    </div>
                   </form>
                 </div>
-                <div className="modal-footer">
-                  <button id='cerrar' type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                  <button id='crear' type="submit" className="btn btn-warning" >Confirmar</button>
-                </div>
+
               </div>
             </div>
           </div>
