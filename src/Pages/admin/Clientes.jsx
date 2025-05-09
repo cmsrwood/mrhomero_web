@@ -214,35 +214,23 @@ export default function Clientes() {
         for (let i = 0; i < veces; i++) {
             filas.push(
                 <tr key={i}>
-                    <th scope="row">
-                        <p aria-hidden="true">
-                            <span className="placeholder"></span>
-                        </p>
+                    <th scope="row" style={{ width: '10%' }}>
+                        <p aria-hidden="true" className="placeholder w-100"></p>
                     </th>
-                    <td>
-                        <p aria-hidden="true">
-                            <span className="placeholder"></span>
-                        </p>
+                    <td style={{ width: '20%' }}>
+                        <p aria-hidden="true" className="placeholder w-100"></p>
                     </td>
-                    <td>
-                        <p aria-hidden="true">
-                            <span className="placeholder"></span>
-                        </p>
+                    <td style={{ width: '20%' }}>
+                        <p aria-hidden="true" className="placeholder w-100"></p>
                     </td>
-                    <td>
-                        <p aria-hidden="true">
-                            <span className="placeholder"></span>
-                        </p>
+                    <td style={{ width: '30%' }}>
+                        <p aria-hidden="true" className="placeholder w-100"></p>
                     </td>
-                    <td>
-                        <p aria-hidden="true">
-                            <span className="placeholder"></span>
-                        </p>
+                    <td style={{ width: '10%' }}>
+                        <p aria-hidden="true" className="placeholder w-100"></p>
                     </td>
-                    <td>
-                        <p aria-hidden="true">
-                            <span className="placeholder"></span>
-                        </p>
+                    <td style={{ width: '10%' }}>
+                        <p aria-hidden="true" className="placeholder w-100"></p>
                     </td>
                 </tr>
             );
