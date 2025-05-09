@@ -143,6 +143,7 @@ export default function Clientes() {
 
     // Función para eliminar cliente
     const eliminarCliente = async (id) => {
+        setIsUploading(true);
         try {
             const confirm = await Swal.fire({
                 title: '¿Estás seguro de eliminar este cliente?',
@@ -172,6 +173,8 @@ export default function Clientes() {
             if (error.response) {
                 Swal.fire('Error', error.response.data, 'error');
             }
+        } finally {
+            setIsUploading(false);
         }
     };
 
@@ -306,7 +309,16 @@ export default function Clientes() {
                                     </td>
                                     <td>
                                         {cliente.user_estado === 1
-                                            ? <button type="button" className="btn btn-danger" onClick={() => eliminarCliente(cliente.id_user)} id='eliminar' ><i className="bi bi-trash"></i></button>
+                                            ?
+                                            <button type="button" className="btn btn-danger" onClick={() => eliminarCliente(cliente.id_user)} id='eliminar' >
+                                                {isUploading ?
+                                                    <div className="spinner-border text-dark" style={{ width: '1.5rem', height: '1.5rem' }} role="status">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </div>
+                                                    :
+                                                    <i className="bi bi-trash"></i>
+                                                }
+                                            </button>
                                             : <button type="button" className="btn btn-success" onClick={() => restaurarCliente(cliente.id_user)} ><i className="bi bi-arrow-counterclockwise"></i></button>}
                                     </td>
                                 </tr>
