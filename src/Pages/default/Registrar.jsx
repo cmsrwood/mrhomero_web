@@ -11,6 +11,8 @@ export default function Registrar() {
 
   const navigate = useNavigate();
 
+  const [isUploading, setIsUploading] = useState(false);
+
   const [user, setUser] = useState({
     nombres: "",
     apellidos: "",
@@ -25,13 +27,14 @@ export default function Registrar() {
   }
 
   const handleSubmit = async (e) => {
+    setIsUploading(true);
     e.preventDefault();
     const nombre = user.nombres;
     const nombreConGuiones = nombre.replace(/\s+/g, '_');
     const id_unico = `user_${nombreConGuiones}_${Date.now()}`
     try {
       const data = {
-        id : id_unico,
+        id: id_unico,
         nombres: user.nombres,
         apellidos: user.apellidos,
         email: user.email,
@@ -45,7 +48,7 @@ export default function Registrar() {
           title: res.data.message,
           confirmButtonText: 'Continuar'
         });
-        console.log (res);
+        console.log(res);
         navigate("/ingresar");
       }
     } catch (error) {
@@ -57,6 +60,8 @@ export default function Registrar() {
           confirmButtonText: 'Intentar de nuevo'
         });
       }
+    } finally {
+      setIsUploading(false);
     }
   }
 
@@ -90,7 +95,13 @@ export default function Registrar() {
               <label htmlFor="floatingInput">Confirmar contraseña</label>
             </div>
             <div className="text-center">
-              <button className="btn btn-warning w-100 rounded-5 mb-2 py-2" type='submit'>Registrarse</button>
+              <button className="btn btn-warning w-100 rounded-5 mb-2 py-2" type='submit'>
+                {isUploading ?
+                  <div className="spinner-border text-dark" style={{ width: '1.5rem', height: '1.5rem' }} role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                  :
+                  'Registrar'}</button>
               <p><small> Al registrarte, aceptas nuestras <Link to='/condiciones-de-uso' >Condiciones de uso</Link> y <Link to='/politica-de-privacidad'>Politica de privacidad</Link> </small></p>
               <p className="text-center text-secondary"><small> ¿Ya tienes una cuenta? <Link to="/ingresar">Inicia sesion</Link> </small></p>
             </div>
