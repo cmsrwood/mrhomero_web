@@ -28,7 +28,7 @@ export default function Clientes() {
                 }
             },
             {
-                element:'#eliminar',
+                element: '#eliminar',
                 popover: {
                     title: 'Eliminar cliente',
                     description: 'Pulsa sobre el boton para eliminar un cliente',
@@ -94,27 +94,30 @@ export default function Clientes() {
         }
     };
 
-    const activateTuto = () => { 
+    const activateTuto = () => {
         driverObj.drive();
     }
 
     handleTuto();
 
-
-
     const [clientes, setClientes] = useState([]);
     const [searchTerm, setSearchTerms] = useState('');
     const [isDataUpdated, setIsDataUpdated] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
     const [estadoFiltro, setEstadoFiltro] = useState(1);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setIsLoading(true);
                 const res = await axios.get(`${BACKEND_URL}/api/personas/clientes/`);
                 setClientes(res.data);
                 setIsDataUpdated(false);
             } catch (error) {
                 console.error('Error al obtener clientes:', error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -206,6 +209,42 @@ export default function Clientes() {
         setSearchTerms(e.target.value);
     }
 
+    const renderFila = (veces) => {
+        const filas = [];
+        for (let i = 0; i < veces; i++) {
+            filas.push(
+                <tr key={i}>
+                    <th scope="row">
+                        <p aria-hidden="true">
+                            <span className="placeholder"></span>
+                        </p>
+                    </th>
+                    <td>
+                        <p aria-hidden="true">
+                            <span className="placeholder"></span>
+                        </p>
+                    </td>
+                    <td>
+                        <p aria-hidden="true">
+                            <span className="placeholder"></span>
+                        </p>
+                    </td>
+                    <td>
+                        <p aria-hidden="true">
+                            <span className="placeholder"></span>
+                        </p>
+                    </td>
+                    <td>
+                        <p aria-hidden="true">
+                            <span className="placeholder"></span>
+                        </p>
+                    </td>
+                </tr>
+            );
+        }
+        return filas;
+    }
+
     return (
         <div className="">
             <div className="row">
@@ -227,18 +266,18 @@ export default function Clientes() {
                         <div className="col">
                             {/* Dropdown para filtrar por estado */}
                             <div className="dropdown">
-                                <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id= 'estado'>
+                                <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id='estado'>
                                     Estado
                                 </button>
                                 <ul className="dropdown-menu">
                                     <li>
-                                        <button className='btn w-100' onClick={() => filtrarClientesPorEstado(1)} id= 'activos'>Activos</button>
+                                        <button className='btn w-100' onClick={() => filtrarClientesPorEstado(1)} id='activos'>Activos</button>
                                     </li>
                                     <li>
-                                        <button className='btn w-100' onClick={() => filtrarClientesPorEstado(0)} id= 'inactivos'>Inactivos</button>
+                                        <button className='btn w-100' onClick={() => filtrarClientesPorEstado(0)} id='inactivos'>Inactivos</button>
                                     </li>
                                     <li>
-                                        <button className='btn w-100' onClick={() => filtrarClientesPorEstado(null)} id= 'todos'>Todos</button>
+                                        <button className='btn w-100' onClick={() => filtrarClientesPorEstado(null)} id='todos'>Todos</button>
                                     </li>
                                 </ul>
                             </div>
@@ -260,22 +299,26 @@ export default function Clientes() {
                         </tr>
                     </thead>
                     <tbody>
-                        {clientesFiltrados.map(cliente => (
-                            <tr key={cliente.id_user}>
-                                <th scope="row">{cliente.id_user}</th>
-                                <td>{cliente.user_nom}</td>
-                                <td>{cliente.user_apels}</td>
-                                <td>{cliente.user_email}</td>
-                                <td className={cliente.user_estado === 1 ? 'text-success' : 'text-danger'}>
-                                    {cliente.user_estado === 1 ? 'Activo' : 'Inactivo'}
-                                </td>
-                                <td>
-                                    {cliente.user_estado === 1
-                                        ? <button type="button" className="btn btn-danger" onClick={() => eliminarCliente(cliente.id_user)} id='eliminar' ><i className="bi bi-trash"></i></button>
-                                        : <button type="button" className="btn btn-success" onClick={() => restaurarCliente(cliente.id_user)} ><i className="bi bi-arrow-counterclockwise"></i></button>}
-                                </td>
-                            </tr>
-                        ))}
+                        {isLoading ?
+                            renderFila(8)
+                            :
+                            clientesFiltrados.map(cliente => (
+                                <tr key={cliente.id_user}>
+                                    <th scope="row">{cliente.id_user}</th>
+                                    <td>{cliente.user_nom}</td>
+                                    <td>{cliente.user_apels}</td>
+                                    <td>{cliente.user_email}</td>
+                                    <td className={cliente.user_estado === 1 ? 'text-success' : 'text-danger'}>
+                                        {cliente.user_estado === 1 ? 'Activo' : 'Inactivo'}
+                                    </td>
+                                    <td>
+                                        {cliente.user_estado === 1
+                                            ? <button type="button" className="btn btn-danger" onClick={() => eliminarCliente(cliente.id_user)} id='eliminar' ><i className="bi bi-trash"></i></button>
+                                            : <button type="button" className="btn btn-success" onClick={() => restaurarCliente(cliente.id_user)} ><i className="bi bi-arrow-counterclockwise"></i></button>}
+                                    </td>
+                                </tr>
+                            ))
+                        }
                     </tbody>
                 </table>
             </div>
