@@ -104,7 +104,7 @@ export default function Clientes() {
     const [searchTerm, setSearchTerms] = useState('');
     const [isDataUpdated, setIsDataUpdated] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [isUploading, setIsUploading] = useState(false);
+    const [isUploading, setIsUploading] = useState(null);
     const [estadoFiltro, setEstadoFiltro] = useState(1);
 
     useEffect(() => {
@@ -143,7 +143,6 @@ export default function Clientes() {
 
     // Función para eliminar cliente
     const eliminarCliente = async (id) => {
-        setIsUploading(true);
         try {
             const confirm = await Swal.fire({
                 title: '¿Estás seguro de eliminar este cliente?',
@@ -158,7 +157,7 @@ export default function Clientes() {
             if (!confirm.isConfirmed) {
                 return;
             }
-
+            setIsUploading(id);
             const res = await axios.put(`${BACKEND_URL}/api/personas/clientes/eliminar/${id}`);
 
             if (res.status === 200) {
@@ -174,7 +173,7 @@ export default function Clientes() {
                 Swal.fire('Error', error.response.data, 'error');
             }
         } finally {
-            setIsUploading(false);
+            setIsUploading(null);
         }
     };
 
@@ -193,7 +192,7 @@ export default function Clientes() {
             if (!confirm.isConfirmed) {
                 return;
             }
-
+            setIsUploading(id);
             const res = await axios.put(`${BACKEND_URL}/api/personas/clientes/restaurar/${id}`);
             if (res.status === 200) {
                 Swal.fire({
@@ -204,6 +203,8 @@ export default function Clientes() {
             }
         } catch (error) {
             console.error('Error al restaurar cliente:', error);
+        } finally {
+            setIsUploading(null);
         }
     };
 
@@ -311,15 +312,22 @@ export default function Clientes() {
                                         {cliente.user_estado === 1
                                             ?
                                             <button type="button" className="btn btn-danger" onClick={() => eliminarCliente(cliente.id_user)} id='eliminar' >
-                                                {isUploading ?
-                                                    <div className="spinner-border text-dark" style={{ width: '1.5rem', height: '1.5rem' }} role="status">
+                                                {isUploading === cliente.id_user ?
+                                                    <div className="spinner-border text-white" style={{ width: '1rem', height: '1rem' }} role="status">
                                                         <span className="visually-hidden">Loading...</span>
                                                     </div>
                                                     :
                                                     <i className="bi bi-trash"></i>
                                                 }
                                             </button>
-                                            : <button type="button" className="btn btn-success" onClick={() => restaurarCliente(cliente.id_user)} ><i className="bi bi-arrow-counterclockwise"></i></button>}
+                                            : <button type="button" className="btn btn-success" onClick={() => restaurarCliente(cliente.id_user)} >
+                                                {isUploading === cliente.id_user ?
+                                                    <div className="spinner-border text-white" style={{ width: '1rem', height: '1rem' }} role="status">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </div>
+                                                    :
+                                                    <i className="bi bi-arrow-counterclockwise"></i>
+                                                }</button>}
                                     </td>
                                 </tr>
                             ))
