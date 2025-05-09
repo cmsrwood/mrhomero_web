@@ -239,6 +239,11 @@ export default function Clientes() {
                             <span className="placeholder"></span>
                         </p>
                     </td>
+                    <td>
+                        <p aria-hidden="true">
+                            <span className="placeholder"></span>
+                        </p>
+                    </td>
                 </tr>
             );
         }
@@ -300,7 +305,7 @@ export default function Clientes() {
                     </thead>
                     <tbody>
                         {isLoading ?
-                            renderFila(8)
+                            renderFila(4)
                             :
                             clientesFiltrados.map(cliente => (
                                 <tr key={cliente.id_user}>
