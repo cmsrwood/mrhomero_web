@@ -310,7 +310,7 @@ export default function Proveedores() {
                         </div>
                         <div className="modal-footer">
                             <button type="button" id='cerrarModal' className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" id='crearProveedor' className="btn btn-warning" onClick={handleSubmit}>Guardar cambios</button>
+                            <button type="button" id='crearProveedor' className="btn btn-warning" onClick={handleSubmit}>Guardar</button>
                         </div>
                     </div>
                 </div>
@@ -376,7 +376,7 @@ export default function Proveedores() {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" className="btn btn-warning" onClick={handleEditSubmit}>Guardar cambios</button>
+                            <button type="button" className="btn btn-warning" onClick={handleEditSubmit}>Guardar</button>
                         </div>
                     </div>
                 </div>

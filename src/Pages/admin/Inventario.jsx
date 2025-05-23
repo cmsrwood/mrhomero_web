@@ -36,7 +36,7 @@ export default function Inventario() {
       },
       {
         element: '#añadirIng',
-         popover: {
+        popover: {
           title: 'Añadir ingrediente',
           description: 'Pulsa sobre el boton para crear un nuevo ingrediente',
           onNextClick: () => {
@@ -54,7 +54,7 @@ export default function Inventario() {
           description: 'Aqui podras ver todos los ingredientes en stock',
         }
       },
-      
+
       {
         element: '#editar',
         popover: {
@@ -96,11 +96,11 @@ export default function Inventario() {
         }
       }
     ]
-    
+
   });
   const handleTuto = async () => {
-   const tuto = localStorage.getItem('needInventarioTuto');
-   if (tuto == null) {
+    const tuto = localStorage.getItem('needInventarioTuto');
+    if (tuto == null) {
       driverObj.drive();
       localStorage.setItem('needInventarioTuto', false);
     }
@@ -108,7 +108,7 @@ export default function Inventario() {
       driverObj.drive();
     }
   };
-  const activateTuto = () => { 
+  const activateTuto = () => {
     driverObj.drive();
   }
 
@@ -352,7 +352,7 @@ export default function Inventario() {
                     </div>
                     <div className="modal-footer">
                       <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                      <button type="submit" className="btn btn-warning">Guardar cambios</button>
+                      <button type="submit" className="btn btn-warning">Guardar</button>
                     </div>
                   </form>
                 </div>
@@ -471,7 +471,7 @@ export default function Inventario() {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" className="btn btn-warning" onClick={() => editarInventario(ingredienteEditar.id_producto_inv)} >Guardar cambios</button>
+              <button type="button" className="btn btn-warning" onClick={() => editarInventario(ingredienteEditar.id_producto_inv)} >Guardar</button>
             </div>
           </div>
         </div>

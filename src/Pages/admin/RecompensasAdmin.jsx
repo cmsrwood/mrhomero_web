@@ -412,6 +412,33 @@ export default function RecompensasAdmin() {
     }
   }
 
+  const restaurarRecompensa = async (id) => {
+    try {
+      const confirm = await Swal.fire({
+        title: '¿Estas seguro de restaurar esta recompensa?',
+        text: "No podrás revertir estaacción",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, restaurar'
+      })
+      if (confirm.isConfirmed) {
+        const response = await axios.put(`${BACKEND_URL}/api/tienda/recompensas/restaurar/${id}`);
+        if (response.status === 200) {
+          Swal.fire({
+            icon: 'success',
+            title: response.data.message
+          });
+          setIsDataUpdated(true);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      Swal.fire('Error', error.response?.data || 'error');
+    }
+  }
+
   return (
     <div className=''>
       <div className="d-flex justify-content-between mb-5">
@@ -453,7 +480,7 @@ export default function RecompensasAdmin() {
               <div className="container">
                 <div className="row">
                   <div className="col-3 m-2 ps-1 pt-2" id='imagenCrearVisualizar'>
-                    <img src={imagePreview || img} height={200} width={280} className='card-img-center border mb-4' alt="..." />
+                    <img src={imagePreview || img} height={200} width={280} style={{ objectFit: 'cover' }} className='card-img-center border mb-4' alt="..." />
                     <input ref={fileInputRef} className='form-control' onChange={handleFileChange} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
                   </div>
                   <div className="col ms-3">
@@ -485,18 +512,23 @@ export default function RecompensasAdmin() {
           scrollbar={{ hide: true }}
           modules={[Scrollbar]}
         >
+          {recompensasFiltradas.length === 0 && (
+            <div className="d-flex justify-content-center align-items-center h-100">
+              <h1>No hay recompensas</h1>
+            </div>
+          )}
           {recompensasFiltradas.map((recompensa) => (
             <SwiperSlide className="h-100" id='cardRecompensa' key={recompensa.id_recomp}>
               <div className="card text-center">
-                <img src={`${recompensa.recomp_foto}`} height={200} className="card-img-top" alt="..." />
+                <img src={`${recompensa.recomp_foto}`} height={200} style={{ objectFit: 'cover' }} className="card-img-top" alt="..." />
                 <div className="card-body">
-                  <h3 className="card-title">{recompensa.recompensa_nombre}</h3>
-                  <p className="card-text">{recompensa.recompensa_descripcion}</p>
+                  <h3 className="card-title" style={{ height: '3rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{recompensa.recompensa_nombre}</h3>
+                  <p className="card-text text-muted" style={{ height: '3rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{recompensa.recompensa_descripcion}</p>
                   <button type="button" className="btn btn-warning mx-4" id='buttonEditar' data-bs-toggle="modal" data-bs-target="#recompensaEditarModal" onClick={() => openEditModal(recompensa)}>
                     <i className="bi bi-pencil-square"></i>
                   </button>
-                  {recompensa.recompensa_estado === 1 ?
-                    <button type="button" className="btn btn-success mx-4" id='restaurarRecompensa' onClick={() => restaurarRecompensa(recompensa.id_recomp)}><i className="bi bi-check-circle"></i> Restaurar</button>
+                  {recompensa.recomp_estado === 0 ?
+                    <button type="button" className="btn btn-success mx-4" id='restaurarRecompensa' onClick={() => restaurarRecompensa(recompensa.id_recomp)}><i className="bi bi-arrow-counterclockwise"></i></button>
                     :
                     <button type="button" className="btn btn-danger mx-4" id='eliminarRecompensa' onClick={() => eliminarRecompensa(recompensa.id_recomp)}><i className="bi bi-trash"></i> </button>
                   }
@@ -517,7 +549,7 @@ export default function RecompensasAdmin() {
               <div className="conatiner">
                 <div className="row">
                   <div className="col-3 m-3 ps-3 pt-2">
-                    <img src={imagePreview ? imagePreview : `${editarRecompensa.foto}`} className="img-fluid mb-3 h-75 rounded" alt="Imagen actual" height={100} />
+                    <img src={imagePreview ? imagePreview : `${editarRecompensa.foto}`} className="mb-3 rounded" alt="Imagen actual" height={200} width={250} style={{ objectFit: 'cover' }} />
                     <input onChange={handleFileChangeEdit} className='form-control' type="file" accept='image/*' id='foto' name='foto' />
                   </div>
                   <div className="col">
@@ -534,8 +566,8 @@ export default function RecompensasAdmin() {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-danger" data-bs-dismiss="modal"><i className="bi bi-x-circle"></i></button>
-              <button type="button" className="btn btn-success" onClick={() => { handleEdit(editarRecompensa.id) }}><i className="bi bi-check2-square"></i></button>
+              <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" className="btn btn-success" onClick={() => { handleEdit(editarRecompensa.id) }}>Guardar</button>
             </div>
           </div>
         </div>

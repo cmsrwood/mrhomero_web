@@ -43,7 +43,7 @@ export default function NavegacionAdmin() {
                         <i className="bi bi-inboxes"></i> <span className='d-none d-lg-inline'>Inventario</span>
                     </Link>
 
-                    <Link to='/admin/menu' className={rutaActiva('menu') ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                    <Link to='/admin/menu' className={rutaActiva('menu') || rutaActiva('categoria') || rutaActiva('producto') ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="fa fa-utensils"></i> <span className='d-none d-lg-inline'>Menú</span>
                     </Link>
                     <Link to='/admin/recompensas' className={rutaActiva('recompensas') ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>

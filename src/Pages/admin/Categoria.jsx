@@ -518,7 +518,7 @@ export default function Categoria() {
         {productosFiltrados.map((producto) => (
           <div className="col my-2" key={producto.id_producto}>
             <div className="card text-center position-relative">
-              <img src={`${producto.pro_foto}`} className="card-img-top border-bottom" height={200} alt="..." />
+              <img src={`${producto.pro_foto}`} className="card-img-top border-bottom" height={200} width={200} style={{ objectFit: 'cover' }} alt="..." />
               <div className="card-body">
                 <span id='estadoProducto' className={producto.pro_estado === 1 ? `position-absolute top-50 start-50 translate-middle-x badge rounded-pill bg-success` : `position-absolute top-50 start-50 translate-middle-x badge rounded-pill bg-danger`}>
                   {producto.pro_estado === 1 ? `Activo` : `Inactivo`}

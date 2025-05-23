@@ -376,7 +376,7 @@ export default function Empleados() {
                     </div>
                     <div className="modal-footer">
                       <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                      <button type="submit" className="btn btn-warning" >Guardar cambios</button>
+                      <button type="submit" className="btn btn-warning" >Guardar</button>
                     </div>
                   </form>
                 </div>

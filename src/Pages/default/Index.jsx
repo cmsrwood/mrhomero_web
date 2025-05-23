@@ -17,11 +17,11 @@ export default function IndexDefault() {
             <h1 className='fw-bold d-block d-sm-none fs-1'>MR. HOMERO ES EL MEJOR</h1>
             <h1 className='fw-bold d-block d-sm-none fs-1'>SI LO QUE BUSCAS ES SABOR</h1>
             <p className='w-100 w-sm-75 py-2' style={{ fontSize: 17, lineHeight: 1.8 }}>¡Descubre el sabor que buscas con MrHomero! En nuestra app, puedes pedir las hamburguesas más deliciosas y tu comida rápida favorita en minutos. ¡Rápido, fácil y con entregas que te harán volver por más! ¿Antojo de una burger perfecta? ¡Descárgala ahora y disfruta el mejor sabor al alcance de tu mano!</p>
-            <Link to={'/registrar'}>
-              <button className='btn btn-warning me-3' style={{ width: 150 }}>Registrate</button>
+            <Link to="/registrar" className="btn btn-warning btn-lg rounded-pill px-4 py-2 shadow mx-2">
+              <i className="bi bi-person-plus me-2"></i>Regístrate
             </Link>
-            <Link to={'/ingresar'}>
-              <button className='btn btn-outline-warning' style={{ width: 150 }}>Inicia Sesión</button>
+            <Link to="/ingresar" className="btn btn-outline-warning btn-lg rounded-pill px-4 py-2 shadow">
+              <i className="bi bi-box-arrow-in-right me-2"></i>Ingresar
             </Link>
           </div>
           <div className="col-12 col-sm-4 order-first order-sm-last text-center">

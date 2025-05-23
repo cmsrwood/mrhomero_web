@@ -54,7 +54,7 @@ export default function PerfilCliente() {
 
   const fileInputRef = useRef(null);
 
-  function resetFoto () {
+  function resetFoto() {
     fileInputRef.current.value = '';
   }
 
@@ -72,12 +72,12 @@ export default function PerfilCliente() {
           const url = cloudinaryResponse.data.url;
           const res2 = await axios.put(`${BACKEND_URL}/api/personas/clientes/actualizar/${id}`, { foto: url });
           if (res2.status === 200) {
-          Swal.fire({
-            icon: 'success',
-            title: "Tu perfil se ha actualizado correctamente"
-          });
-          setImagePreview("");
-          setIsDataUpdated(true);
+            Swal.fire({
+              icon: 'success',
+              title: "Tu perfil se ha actualizado correctamente"
+            });
+            setImagePreview("");
+            setIsDataUpdated(true);
           }
         }
         else {
@@ -103,7 +103,7 @@ export default function PerfilCliente() {
         <form onSubmit={(e) => handleEdit(e, editarUser.id_user)}>
           <div className='align-items-center text-center pb-3 pt-3'>
             <p>Cambia tu foto de perfil</p>
-            <img src={imagePreview? imagePreview : editarUser.user_foto? editarUser.user_foto : img} height={300} width={300} alt="" className='rounded mb-3' />
+            <img src={imagePreview ? imagePreview : editarUser.user_foto ? editarUser.user_foto : img} height={300} width={300} alt="" className='rounded mb-3' />
             <p>{imagePreview ? '¡Tu siguiente foto!' : '¡Tu foto actual!'}</p>
             <input ref={fileInputRef} onChange={handleFileChange} className='form-control mb-5' type="file" accept='image/*' id='imagen' name='imagen' />
             <h1>{editarUser.user_nom} {editarUser.user_apels}</h1>
@@ -141,7 +141,7 @@ export default function PerfilCliente() {
                 <input type="text" pattern='[0-9]{10}' className="form-control" onChange={handleInputChangeEdit} name="user_tel" value={editarUser.user_tel ? editarUser.user_tel : ""} required />
               </div>
               <button type="submit" className="btn btn-warning w-100 mt-3">
-                <i className="bi bi-pencil-square"></i> Guardar cambios
+                <i className="bi bi-pencil-square"></i> Guardar
               </button>
             </div>
           </div>
