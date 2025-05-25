@@ -66,9 +66,9 @@ h1 {
     max-height: 586px;
 }
 
-.scrollbar-swiper{
+.scrollbar-swiper {
     overflow-y: auto;
-    max-height:100px;
+    max-height: 100px;
 }
 
 .scrollbar table thead {
@@ -109,4 +109,81 @@ h1 {
 
 .fstext {
     font-size: 16px;
+}
+
+.containerzoom {
+    overflow: hidden;
+    position: relative;
+}
+
+.divimagen {
+    transition: transform 300ms ease;
+    transform: scale(1);
+    padding-bottom: 2px;
+}
+
+
+.animationhover {
+    position: relative;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.animationhover:hover {
+    box-shadow: 0 0 10px 10px rgba(255, 200, 0, 0.1);
+    box-shadow: 0 0 13px rgba(255, 200, 0, 0.1);
+}
+
+.divimagen {
+    transition: transform 300ms ease;
+    transform: scale(1);
+}
+
+.animationhover:hover .divimagen {
+    transform: scale(1.1);
+}
+
+.animationtext {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    color: #fff;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.animationtext::after {
+    content: "";
+    position: absolute;
+    top: -20%;
+    left: -20%;
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle at center, rgba(255, 193, 7, 0.15), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.animationhover:hover .animationtext::after {
+    opacity: 1;
+}
+
+.animationtext button {
+    background: linear-gradient(to right, #ffc107, #ffca28);
+    border: none;
+    color: #000;
+    font-weight: bold;
+    padding: 6px 16px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.6);
+    transition: transform 0.2s ease;
+}
+
+.animationtext button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(255, 193, 7, 0.8);
 }

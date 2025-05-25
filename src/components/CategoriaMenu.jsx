@@ -50,25 +50,26 @@ export default function CategoriaMenu() {
             <div className="d-flex justify-content-between mb-5">
                 <h1>{categoria?.cat_nom}</h1>
             </div>
-            <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+            <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-5">
                 {productos.map((producto) => (
-                    <Link key={producto.id_producto} to={rutaCategoria(rol, producto.id_producto)} className="text-decoration-none">
-                        <div className="col my-2" key={producto.id_producto}>
-                            <div className="card text-center p-2">
-                                <img loading='lazy' src={`${producto.pro_foto}`} height={200} className="card-img-top" alt="..." />
-                                <div className="card-body">
-                                    <div className=" justify-content-between align-productos-center">
-                                        <h3 className="card-title">{producto.pro_nom}</h3>
-                                        <div className="row">
-                                            <div className="col">
-                                                <NumericFormat value={producto.pro_precio} displayType={'text'} thousandSeparator='.' decimalSeparator=',' prefix={'$ '} />
-                                            </div>
-                                        </div>
-                                    </div>
+                    <div key={producto.id_producto} className="col rounded-5">
+                        <Link to={rutaCategoria(rol, producto.id_producto)} className='text-decoration-none'>
+                            <div className="card text-center rounded-5 border-0 containerzoom animationhover">
+                                <div className="divimagen w-100 pb-2">
+                                    <img loading='lazy' src={`${producto.pro_foto}`} height={300} width={'100%'} className="rounded-top-5" alt="..." style={{ objectFit: 'cover' }} />
+                                </div>
+                                <div className="card-body text-white rounded-bottom-5 animationtext">
+                                    {producto.pro_nom.length > 20 ? (
+                                        <h5 className="homero">{producto.pro_nom.substring(0, 20) + '...'}</h5>
+                                    ) : (
+                                        <h5 className="homero">{producto.pro_nom}</h5>
+                                    )}
+                                    <p className="card-text">{producto.pro_desp}</p>
+                                    <NumericFormat className='homero' value={producto.pro_precio} displayType={'text'} thousandSeparator='.' decimalSeparator=',' prefix={'$ '} />
                                 </div>
                             </div>
-                        </div>
-                    </Link>
+                        </Link>
+                    </div>
                 ))}
             </div>
             <Link to={`/menu`} className='btn btn-warning position-absolute top-0 end-0 mx-5 my-4'>Volver <i className="bi bi-arrow-left"></i></Link>

@@ -7,6 +7,7 @@ const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 export default function Menu() {
 
     const [categorias, setCategorias] = useState([])
+    const [productos, setProductos] = useState([])
     const [isDataUpdated, setIsDataUpdated] = useState(false)
 
     const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
@@ -15,10 +16,12 @@ export default function Menu() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [categoriasRes] = await Promise.all([
+                const [categoriasRes, productosRes] = await Promise.all([
                     axios.get(`${BACKEND_URL}/api/tienda/categorias/`),
+                    axios.get(`${BACKEND_URL}/api/tienda/productos/`),
                 ]);
                 setCategorias(categoriasRes.data);
+                setProductos(productosRes.data);
             } catch (error) {
                 console.log(error);
             }
@@ -44,17 +47,18 @@ export default function Menu() {
                 <h1 className="text-warning text-center mb-4">Menu</h1>
                 <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-5">
                     {categorias.map((categoria) => (
-                        <div key={categoria.id_categoria} className="col">
-                            <div className="card" key={categoria.id_categoria}>
-                                <Link to={rutaCategoria(rol, categoria.id_categoria)} className='text-decoration-none'>
-                                    <div className="card text-center border-0">
-                                        <img loading='lazy' src={`${categoria.cat_foto}`} height={200} className="card-img-top" alt="..." />
-                                        <div className="card-body">
-                                            <h5 className="card-title">{categoria.cat_nom}</h5>
-                                        </div>
+                        <div key={categoria.id_categoria} className="col rounded-5">
+                            <Link to={rutaCategoria(rol, categoria.id_categoria)} className='text-decoration-none'>
+                                <div className="card text-center rounded-5 border-0 containerzoom animationhover">
+                                    <div className="divimagen w-100 pb-2"> 
+                                        <img loading='lazy' src={`${categoria.cat_foto}`} height={300} width={'100%'} className="rounded-top-5" alt="..." style={{ objectFit: 'cover' }} />
                                     </div>
-                                </Link>
-                            </div>
+                                    <div className="card-body text-white rounded-bottom-5 animationtext">
+                                        <h5 className="homero">{categoria.cat_nom}</h5>
+                                        <button className='btn btn-warning text-dark fw-bold rounded-pill'>{productos.reduce((total, producto) => producto.id_categoria === categoria.id_categoria ? total + 1 : total, 0)} Productos</button>
+                                    </div>
+                                </div>
+                            </Link>
                         </div>
                     ))}
                 </div>
