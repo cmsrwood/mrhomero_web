@@ -15,6 +15,7 @@ export default function CategoriaMenu() {
 
     const [productos, setProductos] = useState([]);
     const [isDataUpdated, setIsDataUpdated] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
     const [categoria, setCategoria] = useState(null);
 
     function rutaCategoria(rol, idProducto) {
@@ -28,9 +29,37 @@ export default function CategoriaMenu() {
         }
     }
 
+    function renderIsLoading(cant) {
+        const loadingItems = [];
+        for (let i = 0; i < cant; i++) {
+            loadingItems.push(
+                <div className="placeholder-glow">
+                    <div key={i} className="col rounded-5">
+                        <div className="card text-center rounded-5 border-0 containerzoom animationhover">
+                            <div className="divimagen w-100 pb-2">
+                                <div loading='lazy' height={300} width={'100%'} className="rounded-top-5" alt="..." style={{ objectFit: 'cover' }} >
+                                    <span className="placeholder col-12" style={{ height: '300px' }}></span>
+                                </div>
+                            </div>
+                            <div className="card-body text-white rounded-bottom-5 animationtext">
+                                <h5 className="homero">
+                                    <span className="placeholder col-6"></span>
+                                </h5>
+                                <button className='btn btn-warning text-dark fw-bold rounded-pill placeholder' style={{ width: '30%' }}>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        return loadingItems;
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setIsLoading(true);
                 const [productosRes, categoriaRes] = await Promise.all([
                     axios.get(`${BACKEND_URL}/api/tienda/productos/categoria/${categoriaId}`),
                     axios.get(`${BACKEND_URL}/api/tienda/categorias/${categoriaId}`),
@@ -40,6 +69,7 @@ export default function CategoriaMenu() {
             } catch (error) {
                 console.log(error);
             }
+            setIsLoading(false);
             setIsDataUpdated(false);
         };
         fetchData();
@@ -47,10 +77,11 @@ export default function CategoriaMenu() {
 
     return (
         <div className="container position-relative justify-content-between">
-            <div className="d-flex justify-content-between mb-5">
-                <h1>{categoria?.cat_nom}</h1>
+            <div className="d-flex justify-content-between mb-4">
+                <h1>{categoria?.cat_nom ? categoria.cat_nom : 'Cargando...'}</h1>
             </div>
             <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-5">
+                {isLoading && renderIsLoading(6)}
                 {productos.map((producto) => (
                     <div key={producto.id_producto} className="col rounded-5">
                         <Link to={rutaCategoria(rol, producto.id_producto)} className='text-decoration-none'>
@@ -72,7 +103,7 @@ export default function CategoriaMenu() {
                     </div>
                 ))}
             </div>
-            <Link to={`/menu`} className='btn btn-warning position-absolute top-0 end-0 mx-5 my-4'>Volver <i className="bi bi-arrow-left"></i></Link>
+            <Link to={`/menu`} className={`btn btn-warning position-absolute top-0 end-0 mx-5 my-4 ${isLoading ? 'd-none' : ''}`}>Volver <i className="bi bi-arrow-left"></i></Link>
 
         </div >
     )
