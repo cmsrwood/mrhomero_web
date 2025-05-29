@@ -25,7 +25,7 @@ export default function NavegacionDefault() {
           <Link className={`nav-link mx-2 ${rutaActiva('nosotros')} fs-5`} to="/nosotros">
             <i className="bi bi-people-fill me-1"></i>Nosotros
           </Link>
-          <Link className={`nav-link mx-2 ${rutaActiva('menu')} fs-5`} to="/menu">
+          <Link className={`nav-link mx-2 ${rutaActiva('menu') || rutaActiva('categoria') || rutaActiva('producto')} fs-5`} to="/menu">
             <i className="bi bi-list-ul me-1"></i>Menú
           </Link>
           <Link className={`nav-link mx-2 ${rutaActiva('registrar')} fs-5`} to="/registrar">Crear mi cuenta</Link>
