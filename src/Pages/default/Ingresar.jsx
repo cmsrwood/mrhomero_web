@@ -8,8 +8,6 @@ import Loader from '../../components/Loader';
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Ingresar() {
-  axios.defaults.withCredentials = true;
-
   const navigate = useNavigate();
 
   const [user, setUser] = useState({

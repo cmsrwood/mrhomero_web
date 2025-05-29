@@ -7,8 +7,6 @@ import logo from '/logo.png'
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 export default function Registrar() {
 
-  axios.defaults.withCredentials = true
-
   const navigate = useNavigate();
 
   const [isUploading, setIsUploading] = useState(false);

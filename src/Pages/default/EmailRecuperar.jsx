@@ -5,8 +5,6 @@ import Swal from 'sweetalert2';
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Recuperar() {
-    axios.defaults.withCredentials = true
-
     const navigate = useNavigate();
     const [userEmailRecuperar, setUser] = useState({
         email: ""
