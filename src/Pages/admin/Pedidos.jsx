@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Scrollbar } from 'swiper/modules'
@@ -10,7 +9,7 @@ import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+import API from '../../config/Api';
 
 export default function Pedidos() {
   // Uso de useState para los modales
@@ -42,9 +41,9 @@ export default function Pedidos() {
     const fetchData = async () => {
       try {
         const [categoriasRes, productosRes, clientesRes,] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/tienda/categorias/`),
-          axios.get(`${BACKEND_URL}/api/tienda/productos/categoria/${idCategoria}`),
-          axios.get(`${BACKEND_URL}/api/personas/clientes/`),
+          API.get(`/api/tienda/categorias/`),
+          API.get(`/api/tienda/productos/categoria/${idCategoria}`),
+          API.get(`/api/personas/clientes/`),
         ]);
         setCategorias(categoriasRes.data);
         setproductos(productosRes.data);
@@ -178,7 +177,7 @@ export default function Pedidos() {
     if (verificarRecibido() == 'correcto') {
       const updatedVentaInfo = handleChange();
       try {
-        const ventaRes = await axios.post(`${BACKEND_URL}/api/tienda/ventas/crear`, updatedVentaInfo);
+        const ventaRes = await API.post(`/api/tienda/ventas/crear`, updatedVentaInfo);
         if (ventaRes.status === 200) {
           const id_venta = ventaRes.data.id;
           const detalles = venta.map(async (producto) => {
@@ -189,12 +188,12 @@ export default function Pedidos() {
               precio_unitario: producto.pro_precio,
               subtotal: producto.pro_precio * producto.cantidad
             };
-            return axios.post(`${BACKEND_URL}/api/tienda/ventas/crearDetalleVenta`, detalleVenta);
+            return API.post(`/api/tienda/ventas/crearDetalleVenta`, detalleVenta);
           });
 
           if (userSelect.id_user !== 0) {
             const puntos = venta.map(async (producto) => {
-              return axios.put(`${BACKEND_URL}/api/personas/clientes/agregarPuntos/${userSelect.id_user}`, { puntos: producto.pro_puntos * producto.cantidad });
+              return API.put(`/api/personas/clientes/agregarPuntos/${userSelect.id_user}`, { puntos: producto.pro_puntos * producto.cantidad });
             });
             await Promise.all(puntos);
           }

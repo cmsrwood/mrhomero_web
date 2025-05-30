@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import axios from 'axios';
 import Swal from 'sweetalert2';
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+import API from '../config/Api';
 
 export default function RutaPrivada ({ requiredRole }) {
     const [isAuth, setIsAuth] = useState(null);
@@ -17,7 +16,7 @@ export default function RutaPrivada ({ requiredRole }) {
                         'Authorization': `Bearer ${token}`,
                     },
                 };
-                const res = await axios.get(`${BACKEND_URL}/api/auth/validarToken`, config);
+                const res = await API.get(`/api/auth/validarToken`, config);
                 setIsAuth(true);
                 setUserRole(res.data.rol);
             } catch (err) {

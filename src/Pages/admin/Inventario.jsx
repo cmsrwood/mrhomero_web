@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import NavegacionAdmin from '../../navigation/NavegacionAdmin';
-import axios from 'axios';
+
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+import API from '../../config/Api';
 
 export default function Inventario() {
   const driverObj = driver({
@@ -129,8 +129,8 @@ export default function Inventario() {
     const fetchData = async () => {
       try {
         const [inventarioRes, proveedoresRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/tienda/inventario/`),
-          axios.get(`${BACKEND_URL}/api/tienda/inventario/proveedores/mostrar`)
+          API.get(`/api/tienda/inventario/`),
+          API.get(`/api/tienda/inventario/proveedores/mostrar`)
         ]);
         setInventario(inventarioRes.data);
         setProveedores(proveedoresRes.data);
@@ -172,7 +172,7 @@ export default function Inventario() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${BACKEND_URL}/api/tienda/inventario/crear`, ingrediente);
+      const res = await API.post(`/api/tienda/inventario/crear`, ingrediente);
 
       if (res.status === 200) {
         Swal.fire({
@@ -230,7 +230,7 @@ export default function Inventario() {
       if (!confirm.isConfirmed) {
         return;
       }
-      const res = await axios.delete(`${BACKEND_URL}/api/tienda/inventario/eliminar/${id}`);
+      const res = await API.delete(`/api/tienda/inventario/eliminar/${id}`);
       if (res.status === 200) {
         Swal.fire({
           icon: 'success',
@@ -260,7 +260,7 @@ export default function Inventario() {
         confirmButtonText: 'Sí, editar'
       });
       if (confirm.isConfirmed) {
-        const res = await axios.put(`${BACKEND_URL}/api/tienda/inventario/actualizar/${id}`, ingredienteEditar);
+        const res = await API.put(`/api/tienda/inventario/actualizar/${id}`, ingredienteEditar);
         if (res.status === 200) {
           Swal.fire({
             icon: 'success',

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import NavegacionAdmin from '../../navigation/NavegacionAdmin'
 import Swal from 'sweetalert2'
-import axios from 'axios';
 import { driver } from 'driver.js'
 import "driver.js/dist/driver.css"
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+import API from '../../config/Api';
+
 export default function Proveedores() {
     const driverObj = driver({
         showProgress: true,
@@ -127,7 +127,7 @@ export default function Proveedores() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get(`${BACKEND_URL}/api/tienda/proveedores/`);
+                const res = await API.get(`/api/tienda/proveedores/`);
                 setProveedores(res.data);
             } catch (error) {
                 console.error(error);
@@ -161,7 +161,7 @@ export default function Proveedores() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post(`${BACKEND_URL}/api/tienda/proveedores/crear`, proveedor);
+            const res = await API.post(`/api/tienda/proveedores/crear`, proveedor);
             if (res.status === 200) {
                 Swal.fire({
                     icon: 'success',
@@ -206,7 +206,7 @@ export default function Proveedores() {
     const handleEditSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.put(`${BACKEND_URL}/api/tienda/proveedores/actualizar/${proveedorEdit.prov_id}`, proveedorEdit);
+            const res = await API.put(`/api/tienda/proveedores/actualizar/${proveedorEdit.prov_id}`, proveedorEdit);
             if (res.status === 200) {
                 setIsDataUpdated(true);
                 Swal.fire({
@@ -253,7 +253,7 @@ export default function Proveedores() {
             if (!confirm.isConfirmed) {
                 return;
             }
-            const res = await axios.delete(`${BACKEND_URL}/api/tienda/proveedores/eliminar/${id}`);
+            const res = await API.delete(`/api/tienda/proveedores/eliminar/${id}`);
             if (res.status === 200) {
                 Swal.fire({
                     icon: 'success',

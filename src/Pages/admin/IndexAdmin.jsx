@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Scrollbar } from 'swiper/modules'
 import 'swiper/css'
@@ -8,8 +7,7 @@ import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
-
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+import API from '../../config/Api';
 
 export default function IndexAdmin() {
 
@@ -98,11 +96,11 @@ export default function IndexAdmin() {
     const fetchData = async () => {
       try {
         const [clientesRes, clientesUltimoMesRes, resenasRes, ratingResenasRes, adminRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/personas/clientes/`),
-          axios.get(`${BACKEND_URL}/api/personas/clientes/reportes/cuentaClientesUltimoMes`),
-          axios.get(`${BACKEND_URL}/api/personas/clientes/resenas/datos/`),
-          axios.get(`${BACKEND_URL}/api/personas/clientes/resenas/datos/rating/`),
-          axios.get(`${BACKEND_URL}/api/personas/admin/${id}`),
+          API.get(`/api/personas/clientes/`),
+          API.get(`/api/personas/clientes/reportes/cuentaClientesUltimoMes`),
+          API.get(`/api/personas/clientes/resenas/datos/`),
+          API.get(`/api/personas/clientes/resenas/datos/rating/`),
+          API.get(`/api/personas/admin/${id}`),
         ]);
         setClientes(clientesRes.data);
         setClientesUltimoMes(clientesUltimoMesRes.data);

@@ -2,11 +2,10 @@ import React, { useState, useEffect, useRef } from 'react'
 import img from '../../assets/img/img.png'
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import uniqid from 'uniqid';
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+import API from "../../config/Api";
 
 export default function MenuAdmin() {
 
@@ -19,7 +18,7 @@ export default function MenuAdmin() {
     const fetchData = async () => {
       try {
         const [categoriasRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/tienda/categorias/`),
+          API.get(`/api/tienda/categorias/`),
         ]);
         setCategorias(categoriasRes.data);
       } catch (error) {
@@ -78,7 +77,7 @@ export default function MenuAdmin() {
         foto: ''
       };
 
-      const response = await axios.post(`${BACKEND_URL}/api/tienda/categorias/crear`, categoriaData);
+      const response = await API.post(`/api/tienda/categorias/crear`, categoriaData);
       if (response.status === 200) {
         try {
           // Subir la imagen a Cloudinary
@@ -87,11 +86,11 @@ export default function MenuAdmin() {
           formData.append('upload_preset', 'categorias');
           formData.append('public_id', id_unico);
 
-          const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/subir`, formData);
+          const cloudinaryResponse = await API.post(`/api/imagenes/subir`, formData);
           const url = cloudinaryResponse.data.url;
 
           // Actualizar la categoría con la URL de la imagen
-          await axios.put(`${BACKEND_URL}/api/tienda/categorias/actualizar/${id_unico}`, {
+          await API.put(`/api/tienda/categorias/actualizar/${id_unico}`, {
             foto: url
           });
 
@@ -115,7 +114,7 @@ export default function MenuAdmin() {
           let modalInstance = bootstrap.Modal.getInstance(modalElement);
           modalInstance.hide();
         } catch (error) {
-          await axios.delete(`${BACKEND_URL}/api/tienda/categorias/eliminar/${id_unico}`);
+          await API.delete(`/api/tienda/categorias/eliminar/${id_unico}`);
           throw error;
         }
       }
@@ -152,7 +151,7 @@ export default function MenuAdmin() {
     if (imagePreview) {
       formData.append('foto', editarCategoria.foto);
       try {
-        const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/subir`, formData);
+        const cloudinaryResponse = await API.post(`/api/imagenes/subir`, formData);
         const url = cloudinaryResponse.data.url;
 
         const categoriaData = {
@@ -161,7 +160,7 @@ export default function MenuAdmin() {
         }
 
         try {
-          const response = await axios.put(`${BACKEND_URL}/api/tienda/categorias/actualizar/${id}`, categoriaData);
+          const response = await API.put(`/api/tienda/categorias/actualizar/${id}`, categoriaData);
           if (response.status === 200) {
             Swal.fire('Éxito', 'Categoría editada correctamente', 'success');
             const modalElement = document.getElementById('categoriaEditarModal');
@@ -181,7 +180,7 @@ export default function MenuAdmin() {
       }
     } else {
       try {
-        const response = await axios.put(`${BACKEND_URL}/api/tienda/categorias/actualizar/${id}`, editarCategoria);
+        const response = await API.put(`/api/tienda/categorias/actualizar/${id}`, editarCategoria);
         if (response.status === 200) {
           Swal.fire('Éxito', 'Categoría editada correctamente', 'success');
           const modalElement = document.getElementById('categoriaEditarModal');
@@ -210,7 +209,7 @@ export default function MenuAdmin() {
       if (!confirm.isConfirmed) {
         return;
       }
-      const res = await axios.delete(`${BACKEND_URL}/api/tienda/categorias/eliminar/${id}`);
+      const res = await API.delete(`/api/tienda/categorias/eliminar/${id}`);
       if (res.status === 200) {
         Swal.fire({
           icon: 'success',
@@ -242,7 +241,7 @@ export default function MenuAdmin() {
       if (!confirm.isConfirmed) {
         return;
       }
-      const res = await axios.put(`${BACKEND_URL}/api/tienda/categorias/restaurar/${id}`);
+      const res = await API.put(`/api/tienda/categorias/restaurar/${id}`);
       if (res.status === 200) {
         Swal.fire({
           icon: 'success',

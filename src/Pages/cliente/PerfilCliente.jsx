@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Swal from 'sweetalert2';
-import axios from 'axios'
 import img from '../../assets/img/img.png'
 import moment from 'moment';
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+import API from '../../config/Api';
 
 export default function PerfilCliente() {
 
@@ -27,8 +26,8 @@ export default function PerfilCliente() {
     const fetchData = async () => {
       try {
         const [userRes, comprasRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/personas/clientes/${id_user}`),
-          axios.get(`${BACKEND_URL}/api/tienda/ventas/cliente/${id_user}`),
+          API.get(`/api/personas/clientes/${id_user}`),
+          API.get(`/api/tienda/ventas/cliente/${id_user}`),
         ]);
         setEditarUser(userRes.data);
         setCompras(comprasRes.data);
@@ -61,16 +60,16 @@ export default function PerfilCliente() {
   const handleEdit = async (e, id) => {
     e.preventDefault();
     try {
-      const res = await axios.put(`${BACKEND_URL}/api/personas/clientes/actualizar/${id}`, editarUser);
+      const res = await API.put(`/api/personas/clientes/actualizar/${id}`, editarUser);
       if (res.status === 200) {
         if (imagePreview) {
           const formData = new FormData();
           formData.append('foto', editarUser.user_foto);
           formData.append('upload_preset', 'usuarios');
           formData.append('public_id', id);
-          const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/subir`, formData);
+          const cloudinaryResponse = await API.post(`/api/imagenes/subir`, formData);
           const url = cloudinaryResponse.data.url;
-          const res2 = await axios.put(`${BACKEND_URL}/api/personas/clientes/actualizar/${id}`, { foto: url });
+          const res2 = await API.put(`/api/personas/clientes/actualizar/${id}`, { foto: url });
           if (res2.status === 200) {
             Swal.fire({
               icon: 'success',

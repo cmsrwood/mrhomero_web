@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Spline from './Hamburguesa';
-import axios from 'axios';
-import Loader from '../../components/Loader';
-
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+import API from '../../config/Api';
 
 export default function Ingresar() {
   const navigate = useNavigate();
@@ -44,7 +41,7 @@ export default function Ingresar() {
     }
 
     try {
-      const res = await axios.post(`${BACKEND_URL}/api/auth/ingresar`, user);
+      const res = await API.post(`/api/auth/ingresar`, user);
       if (res.status === 200) {
         const token = res.data.token;
         const rol = res.data.rol;

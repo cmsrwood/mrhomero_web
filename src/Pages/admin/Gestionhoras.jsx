@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import moment from 'moment'
 import { useParams } from 'react-router-dom'
 import { driver } from 'driver.js'
 import "driver.js/dist/driver.css"
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
+import API from '../../config/Api';
 
 export default function Gestionhoras() {
     const driverObj = driver({
@@ -76,9 +75,9 @@ export default function Gestionhoras() {
         const fetchData = async () => {
             try {
                 const [horasRes, horasTotalesRes, empleadoRes] = await Promise.all([
-                    axios.get(`${BACKEND_URL}/api/personas/empleados/mostrarHorasMes/${id}/${ano}/${mes}`),
-                    axios.get(`${BACKEND_URL}/api/personas/empleados/horasPorMes/${id}/${ano}/${mes}`),
-                    axios.get(`${BACKEND_URL}/api/personas/empleados/${id}`),
+                    API.get(`/api/personas/empleados/mostrarHorasMes/${id}/${ano}/${mes}`),
+                    API.get(`/api/personas/empleados/horasPorMes/${id}/${ano}/${mes}`),
+                    API.get(`/api/personas/empleados/${id}`),
 
                 ]);
                 setHoras(horasRes.data);

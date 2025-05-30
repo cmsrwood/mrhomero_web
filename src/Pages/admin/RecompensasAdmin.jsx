@@ -8,10 +8,9 @@ import '../../styles/style.css'
 import Swal from 'sweetalert2'
 import img from '../../assets/img/img.png'
 import uniqid from 'uniqid'
-import axios from 'axios'
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
+import API from '../../config/Api';
 
 export default function RecompensasAdmin() {
   const driverObj = driver({
@@ -203,7 +202,7 @@ export default function RecompensasAdmin() {
     const fetchData = async () => {
       try {
         const [recompensasRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/tienda/recompensas/`)
+          API.get(`/api/tienda/recompensas/`)
         ]);
         setRecompensas(recompensasRes.data);
       } catch (error) {
@@ -243,7 +242,7 @@ export default function RecompensasAdmin() {
       formData.append('upload_preset', 'recompensas');
       formData.append('public_id', id_unico);
 
-      const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/subir`, formData);
+      const cloudinaryResponse = await API.post(`/api/imagenes/subir`, formData);
 
       const url = cloudinaryResponse.data.url;
 
@@ -255,7 +254,7 @@ export default function RecompensasAdmin() {
           puntos: recompensa.puntos,
           foto: url
         }
-        const res = await axios.post(`${BACKEND_URL}/api/tienda/recompensas/crear`, recompensaData);
+        const res = await API.post(`/api/tienda/recompensas/crear`, recompensaData);
         Swal.fire({
           icon: 'success',
           title: res.data.message
@@ -329,7 +328,7 @@ export default function RecompensasAdmin() {
         descripcion: editarRecompensa.descripcion,
         puntos: editarRecompensa.puntos,
       }
-      const res = await axios.put(`${BACKEND_URL}/api/tienda/recompensas/actualizar/${id}`, recompensaData);
+      const res = await API.put(`/api/tienda/recompensas/actualizar/${id}`, recompensaData);
       if (res.status === 200) {
         try {
           if (imagePreview) {
@@ -337,9 +336,9 @@ export default function RecompensasAdmin() {
             formData.append('foto', editarRecompensa.foto_edit);
             formData.append('upload_preset', 'recompensas');
             formData.append('public_id', id);
-            const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/subir`, formData);
+            const cloudinaryResponse = await API.post(`/api/imagenes/subir`, formData);
             const url = cloudinaryResponse.data.url;
-            const response = await axios.put(`${BACKEND_URL}/api/tienda/recompensas/actualizar/${id}`, {
+            const response = await API.put(`/api/tienda/recompensas/actualizar/${id}`, {
               foto: url
             });
             if (response.status === 200) {
@@ -397,7 +396,7 @@ export default function RecompensasAdmin() {
         confirmButtonText: 'Sí, eliminar'
       })
       if (confirm.isConfirmed) {
-        const response = await axios.put(`${BACKEND_URL}/api/tienda/recompensas/eliminar/${id}`);
+        const response = await API.put(`/api/tienda/recompensas/eliminar/${id}`);
         if (response.status === 200) {
           Swal.fire({
             icon: 'success',
@@ -424,7 +423,7 @@ export default function RecompensasAdmin() {
         confirmButtonText: 'Sí, restaurar'
       })
       if (confirm.isConfirmed) {
-        const response = await axios.put(`${BACKEND_URL}/api/tienda/recompensas/restaurar/${id}`);
+        const response = await API.put(`/api/tienda/recompensas/restaurar/${id}`);
         if (response.status === 200) {
           Swal.fire({
             icon: 'success',

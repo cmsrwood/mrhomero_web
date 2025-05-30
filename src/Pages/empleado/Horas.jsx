@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import moment from 'moment'
 import axios from 'axios'
 import Swal from 'sweetalert2'
-
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
-
+import API from '../../config/Api';
 export default function Horas() {
 
   const [horas, setHoras] = useState([]);
@@ -21,7 +19,7 @@ export default function Horas() {
     const fetchData = async () => {
       try {
         const [horasRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/personas/empleados/horasDia/${id}/${fecha}`),
+          API.get(`/api/personas/empleados/horasDia/${id}/${fecha}`),
         ]);
         setHoras(horasRes.data);
       } catch (error) {
@@ -35,7 +33,7 @@ export default function Horas() {
   const agregarHoraInicio = async () => {
     const hora_inicio = moment().format('YYYY-MM-DD HH:mm:ss');
     try {
-      await axios.post(`${BACKEND_URL}/api/personas/empleados/horaInicio/${id}`, { hora_inicio, fecha });
+      await API.post(`/api/personas/empleados/horaInicio/${id}`, { hora_inicio, fecha });
       Swal.fire({
         icon: 'success',
         title: 'Hora de turno en progreso...',
@@ -50,7 +48,7 @@ export default function Horas() {
   const agregarHoraFin = async () => {
     const hora_fin = moment().format('YYYY-MM-DD HH:mm:ss');
     try {
-      await axios.post(`${BACKEND_URL}/api/personas/empleados/horaFin/${id}`, { hora_fin, fecha });
+      await API.post(`/api/personas/empleados/horaFin/${id}`, { hora_fin, fecha });
       Swal.fire({
         icon: 'success',
         title: 'Turno registrado, gracias por trabajar con nosotros.',

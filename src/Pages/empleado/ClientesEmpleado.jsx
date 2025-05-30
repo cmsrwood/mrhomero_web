@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import axios from 'axios';
-
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+import API from '../../config/Api';
 
 export default function Clientes() {
     const [clientes, setClientes] = useState([]);
@@ -12,7 +10,7 @@ export default function Clientes() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get(`${BACKEND_URL}/api/personas/clientes/`);
+                const res = await API.get(`/api/personas/clientes/`);
                 setClientes(res.data);
                 setIsDataUpdated(false);
             } catch (error) {
@@ -27,7 +25,7 @@ export default function Clientes() {
         if (isDataUpdated) {
             const fetchData = async () => {
                 try {
-                    const res = await axios.get(`${BACKEND_URL}/api/personas/clientes/`);
+                    const res = await API.get(`/api/personas/clientes/`);
                     setClientes(res.data);
                     setIsDataUpdated(false);
                 } catch (error) {

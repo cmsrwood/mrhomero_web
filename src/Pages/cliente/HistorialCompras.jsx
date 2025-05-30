@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
-
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
+import API from '../../config/Api';
 
 export default function HistorialCompras() {
 
@@ -21,7 +19,7 @@ export default function HistorialCompras() {
         const fetchData = async () => {
             try {
                 const [comprasRes] = await Promise.all([
-                    axios.get(`${BACKEND_URL}/api/tienda/ventas/cliente/${idUsuario}`),
+                    API.get(`/api/tienda/ventas/cliente/${idUsuario}`),
                 ]);
                 setCompras(comprasRes.data);
             } catch (error) {
@@ -35,10 +33,10 @@ export default function HistorialCompras() {
     const mostrarDetalles = async (id_venta) => {
         setIdVenta(id_venta);
         try {
-            const detalleVentaRes = await axios.get(`${BACKEND_URL}/api/tienda/ventas/detalle/${id_venta}`);
+            const detalleVentaRes = await API.get(`/api/tienda/ventas/detalle/${id_venta}`);
             const detallesConProducto = await Promise.all(
                 detalleVentaRes.data.map(async (detalle) => {
-                    const productoRes = await axios.get(`${BACKEND_URL}/api/tienda/productos/${detalle.id_producto}`);
+                    const productoRes = await API.get(`/api/tienda/productos/${detalle.id_producto}`);
                     return { ...detalle, producto: productoRes.data };
                 })
             );

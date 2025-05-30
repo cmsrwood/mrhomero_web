@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import axios from 'axios';
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
-
+import API from '../../config/Api';
 export default function Ventas() {
 
     const [ventas, setVentas] = useState([]);
@@ -24,8 +22,8 @@ export default function Ventas() {
         const fetchData = async () => {
             try {
                 const [ventasRes, clientesRes] = await Promise.all([
-                    axios.get(`${BACKEND_URL}/api/tienda/ventas/`),
-                    axios.get(`${BACKEND_URL}/api/personas/clientes/`)
+                    API.get(`/api/tienda/ventas/`),
+                    API.get(`/api/personas/clientes/`)
                 ]);
                 setVentas(ventasRes.data);
                 setClientes(clientesRes.data);
@@ -73,7 +71,7 @@ export default function Ventas() {
                 return;
             }
 
-            const response = await axios.put(`${BACKEND_URL}/api/tienda/ventas/eliminar/${id}`);
+            const response = await API.put(`/api/tienda/ventas/eliminar/${id}`);
 
             if (response.status === 200) {
                 Swal.fire({
@@ -102,7 +100,7 @@ export default function Ventas() {
                 return;
             }
 
-            const res = await axios.put(`${BACKEND_URL}/api/tienda/ventas/restaurar/${id}`);
+            const res = await API.put(`/api/tienda/ventas/restaurar/${id}`);
             if (res.status === 200) {
                 Swal.fire({
                     icon: 'success',
@@ -122,10 +120,10 @@ export default function Ventas() {
     const mostrarDetalles = async (id_venta) => {
         setIdVenta(id_venta);
         try {
-            const detalleVentaRes = await axios.get(`${BACKEND_URL}/api/tienda/ventas/detalle/${id_venta}`);
+            const detalleVentaRes = await API.get(`/api/tienda/ventas/detalle/${id_venta}`);
             const detallesConProducto = await Promise.all(
                 detalleVentaRes.data.map(async (detalle) => {
-                    const productoRes = await axios.get(`${BACKEND_URL}/api/tienda/productos/${detalle.id_producto}`);
+                    const productoRes = await API.get(`/api/tienda/productos/${detalle.id_producto}`);
                     return { ...detalle, producto: productoRes.data };
                 })
             );

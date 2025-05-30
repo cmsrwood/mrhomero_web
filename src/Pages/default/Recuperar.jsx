@@ -2,9 +2,8 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import NavegacionDefault from '../../navigation/NavegacionDefault';
-import axios from 'axios';
 import '../../styles/recuperar.css';
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+import API from '../../config/Api';
 
 export default function Ingresar() {
     const navigate = useNavigate();
@@ -53,7 +52,7 @@ export default function Ingresar() {
         e.preventDefault();
         const verificationCode = code.join('');
         try {
-            const res = await axios.post(`${BACKEND_URL}/api/auth/resetPassword`, {
+            const res = await API.post(`/api/auth/resetPassword`, {
                 ...user,
                 verificationCode,
                 email

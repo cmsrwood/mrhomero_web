@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import hamburguesainicio from '../../assets/img/inicio9.jpg';
 import moment from 'moment';
-
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+import API from '../../config/Api';
 
 export default function IndexCliente() {
 
@@ -26,9 +24,9 @@ export default function IndexCliente() {
     const fetchData = async () => {
       try {
         const [userRes, productosMasVendidosRes, productosMasCompradosRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/personas/clientes/${id}`),
-          axios.get(`${BACKEND_URL}/api/tienda/ventas/productosMasVendidos/${ano}/${mes}`),
-          axios.get(`${BACKEND_URL}/api/tienda/ventas/productosMasCompradosPorCliente/${id}`),
+          API.get(`/api/personas/clientes/${id}`),
+          API.get(`/api/tienda/ventas/productosMasVendidos/${ano}/${mes}`),
+          API.get(`/api/tienda/ventas/productosMasCompradosPorCliente/${id}`),
         ])
         setUser(userRes.data);
         setProductosMasVendidos(productosMasVendidosRes.data);

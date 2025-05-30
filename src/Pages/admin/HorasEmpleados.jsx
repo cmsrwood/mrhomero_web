@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
-import axios from 'axios'
 import { driver } from 'driver.js';
 import "driver.js/dist/driver.css";
-
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
+import API from '../../config/Api';
 
 export default function HorasEmpleados() {
 
@@ -83,7 +81,7 @@ export default function HorasEmpleados() {
     const fetchData = async () => {
       try {
         const [empleadosRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/personas/empleados/`),
+          API.get(`/api/personas/empleados/`),
         ]);
         setEmpleados(empleadosRes.data);
       } catch (error) {
@@ -100,7 +98,7 @@ export default function HorasEmpleados() {
     <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 " id="empleados">
       {empleados.map((empleado) => (
         <div className="col card text-center p-2" key={empleado.id_user}>
-          <img src={`${empleado.user_foto}`} height={200} className="card-img-top" alt="..." id='fotosEmpleados'/>
+          <img src={`${empleado.user_foto}`} height={200} className="card-img-top" alt="..." id='fotosEmpleados' />
           <div className="card-body">
             <div className="d-flex justify-content-between align-items-center" id='informacionEmpleados'>
               <h3 className="card-title" >{empleado.user_nom} {empleado.user_apels}</h3>

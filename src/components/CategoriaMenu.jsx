@@ -1,17 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { NumericFormat } from 'react-number-format';
-import Swal from 'sweetalert2';
-import axios from 'axios';
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+import API from '../config/Api';
 
 export default function CategoriaMenu() {
 
     const token = localStorage.getItem('token');
     const rol = token ? JSON.parse(atob(token.split(".")[1])).rol : 0;
-
     const location = useLocation();
-    const categoriaId = token ? location.pathname.split("/")[3] : location.pathname.split("/")[2];
+
+    const pathParts = location.pathname.split("/").filter(Boolean);
+    const categoriaId = pathParts[pathParts.length - 1]
 
     const [productos, setProductos] = useState([]);
     const [isDataUpdated, setIsDataUpdated] = useState(false);
@@ -61,11 +60,12 @@ export default function CategoriaMenu() {
             try {
                 setIsLoading(true);
                 const [productosRes, categoriaRes] = await Promise.all([
-                    axios.get(`${BACKEND_URL}/api/tienda/productos/categoria/${categoriaId}`),
-                    axios.get(`${BACKEND_URL}/api/tienda/categorias/${categoriaId}`),
+                    API.get(`${BACKEND_URL}/api/tienda/productos/categoria/${categoriaId}`),
+                    API.get(`${BACKEND_URL}/api/tienda/categorias/${categoriaId}`),
                 ]);
                 setProductos(productosRes.data);
                 setCategoria(categoriaRes.data);
+
             } catch (error) {
                 console.log(error);
             }

@@ -3,11 +3,10 @@ import { Link, useLocation } from "react-router-dom";
 import img from '../../assets/img/img.png'
 import { NumericFormat } from 'react-number-format';
 import Swal from 'sweetalert2';
-import axios from 'axios';
 import uniqid from 'uniqid';
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+import API from '../../config/Api';
 
 export default function Categoria() {
 
@@ -148,6 +147,7 @@ export default function Categoria() {
 
   handleTuto();
 
+  const token = localStorage.getItem('token');
   const location = useLocation();
   const categoriaId = location.pathname.split("/")[3];
 
@@ -158,11 +158,14 @@ export default function Categoria() {
   const [estadoFiltro, setEstadoFiltro] = useState(1);
 
   useEffect(() => {
+    console.log(token);
+    console.log(categoriaId);
+
     const fetchData = async () => {
       try {
         const [productosRes, categoriaRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/tienda/productos/categoria/${categoriaId}`),
-          axios.get(`${BACKEND_URL}/api/tienda/categorias/${categoriaId}`),
+          API.get(`/api/tienda/productos/categoria/${categoriaId}`),
+          API.get(`/api/tienda/categorias/${categoriaId}`),
         ]);
         setProductos(productosRes.data);
         setCategoria(categoriaRes.data);
@@ -215,7 +218,7 @@ export default function Categoria() {
         foto: ''
       };
 
-      const res = await axios.post(`${BACKEND_URL}/api/tienda/productos/crear`, productoData);
+      const res = await API.post(`${BACKEND_URL}/api/tienda/productos/crear`, productoData);
 
       if (res.status === 200) {
         const formData = new FormData();
@@ -223,11 +226,11 @@ export default function Categoria() {
         formData.append('upload_preset', 'productos');
         formData.append('public_id', id_unico);
 
-        const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/subir`, formData);
+        const cloudinaryResponse = await API.post(`/api/imagenes/subir`, formData);
         const url = cloudinaryResponse.data.url;
 
         // Actualizar el producto en la base de datos con la URL de la imagen
-        await axios.put(`${BACKEND_URL}/api/tienda/productos/actualizar/${id_unico}`, {
+        await API.put(`/api/tienda/productos/actualizar/${id_unico}`, {
           foto: url
         });
 
@@ -300,7 +303,7 @@ export default function Categoria() {
         puntos: editarProducto.puntos,
         id_categoria: editarProducto.id_categoria
       }
-      const res = await axios.put(`${BACKEND_URL}/api/tienda/productos/actualizar/${id}`, productoData);
+      const res = await API.put(`/api/tienda/productos/actualizar/${id}`, productoData);
       if (res.status === 200) {
         try {
           if (imagePreview) {
@@ -308,9 +311,9 @@ export default function Categoria() {
             formData.append('foto', editarProducto.imagen);
             formData.append('upload_preset', 'productos');
             formData.append('public_id', id);
-            const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/subir`, formData);
+            const cloudinaryResponse = await API.post(`/api/imagenes/subir`, formData);
             const url = cloudinaryResponse.data.url;
-            const res2 = await axios.put(`${BACKEND_URL}/api/tienda/productos/actualizar/${id}`, {
+            const res2 = await API.put(`/api/tienda/productos/actualizar/${id}`, {
               foto: url
             });
             if (res2.status === 200) {
@@ -362,7 +365,7 @@ export default function Categoria() {
         return;
       }
 
-      const res = await axios.put(`${BACKEND_URL}/api/tienda/productos/restaurar/${id}`);
+      const res = await API.put(`/api/tienda/productos/restaurar/${id}`);
       if (res.status === 200) {
         Swal.fire({
           icon: 'success',
@@ -392,7 +395,7 @@ export default function Categoria() {
         confirmButtonText: 'Sí, eliminar'
       });
       if (confirm.isConfirmed) {
-        const res = await axios.put(`${BACKEND_URL}/api/tienda/productos/eliminar/${id}`);
+        const res = await API.put(`/api/tienda/productos/eliminar/${id}`);
         if (res.status === 200) {
           Swal.fire({
             icon: 'success',

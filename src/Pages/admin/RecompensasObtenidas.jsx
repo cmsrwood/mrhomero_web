@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import Swal from 'sweetalert2'
 import moment from 'moment'
 import { driver } from 'driver.js'
 import "driver.js/dist/driver.css"
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
+import API from '../../config/Api';
 
 export default function RecompensasObtenidas() {
     const driverObj = driver({
@@ -117,9 +116,9 @@ export default function RecompensasObtenidas() {
         const fetchData = async () => {
             try {
                 const [recompensasRes, recompensasObtenidasRes, clientesRes] = await Promise.all([
-                    axios.get(`${BACKEND_URL}/api/tienda/recompensas/`),
-                    axios.get(`${BACKEND_URL}/api/tienda/recompensas/recompensasObtenidas/recompensas`),
-                    axios.get(`${BACKEND_URL}/api/personas/clientes/`)
+                    API.get(`/api/tienda/recompensas/`),
+                    API.get(`/api/tienda/recompensas/recompensasObtenidas/recompensas`),
+                    API.get(`/api/personas/clientes/`)
                 ]);
                 setRecompensas(recompensasRes.data);
                 setRecompensasObtenidas(recompensasObtenidasRes.data);
@@ -135,7 +134,7 @@ export default function RecompensasObtenidas() {
     const validarRecompensa = async (e, id_recomp_obt) => {
         e.preventDefault();
         try {
-            const res = await axios.put(`${BACKEND_URL}/api/tienda/recompensas/validar/${id_recomp_obt}`, recompensaAValidar);
+            const res = await API.put(`/api/tienda/recompensas/validar/${id_recomp_obt}`, recompensaAValidar);
             Swal.fire({
                 title: res.data.title,
                 text: res.data.message,
@@ -197,7 +196,7 @@ export default function RecompensasObtenidas() {
                             <div className="col-6 px-5 align-content-center">
                                 <h2>{recompensas.find(recompensa => recompensa.id_recomp == recompensaObtenida.id_recomp).recompensa_nombre}</h2>
                                 <p>{recompensas.find(recompensa => recompensa.id_recomp == recompensaObtenida.id_recomp).recompensa_descripcion}</p>
-                                <p className='text-warning'>{clientes.find(cliente => cliente.id_user == recompensaObtenida.id_user).user_nom} {clientes.find(cliente => cliente.id_user == recompensaObtenida.id_user).user_apels}</p>
+                                <p className='text-warning'>{clientes.find(cliente => cliente.id_user == recompensaObtenida.id_user)?.user_nom} {clientes.find(cliente => cliente.id_user == recompensaObtenida.id_user)?.user_apels}</p>
                                 <p className=''>{moment(recompensaObtenida.fecha_reclamo).format('DD/MM/YYYY HH:mm')}</p>
                             </div>
                             <div className={`col-4 text-center`}>

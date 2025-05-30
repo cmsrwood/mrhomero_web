@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import useTema from '../hooks/useTema';
 import useCerrarSesion from '../hooks/useCerrarSesion';
-import axios from 'axios';
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
+import API from '../config/Api';
 
 
 export default function NavegacionAdmin() {
@@ -26,7 +25,7 @@ export default function NavegacionAdmin() {
         const fetchData = async () => {
             try {
                 const [empleadoRes] = await Promise.all([
-                    axios.get(`${BACKEND_URL}/api/personas/empleados/${id}`),
+                    API.get(`/api/personas/empleados/${id}`),
                 ]);
                 setEmpleado(empleadoRes.data);
             } catch (error) {

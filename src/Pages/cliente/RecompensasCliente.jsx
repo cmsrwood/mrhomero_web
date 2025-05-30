@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import Swal from 'sweetalert2'
 import moment from 'moment'
-
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
+import API from '../../config/Api';
 
 export default function RecompensasCliente() {
 
@@ -21,9 +19,9 @@ export default function RecompensasCliente() {
     const fetchData = async () => {
       try {
         const [puntosRes, recompensasRes, recompensasObtenidasRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/tienda/recompensas/puntosUsuario/${idUsuario}`),
-          axios.get(`${BACKEND_URL}/api/tienda/recompensas/`),
-          axios.get(`${BACKEND_URL}/api/tienda/recompensas/recompensasUsuario/${idUsuario}`)
+          API.get(`/api/tienda/recompensas/puntosUsuario/${idUsuario}`),
+          API.get(`/api/tienda/recompensas/`),
+          API.get(`/api/tienda/recompensas/recompensasUsuario/${idUsuario}`)
         ]);
         setPuntos(puntosRes.data[0].user_puntos);
         setRecompensas(recompensasRes.data);
@@ -52,7 +50,7 @@ export default function RecompensasCliente() {
       if (!confirm.isConfirmed) {
         return;
       }
-      const res = await axios.get(`${BACKEND_URL}/api/tienda/recompensas/puntosUsuario/${idUsuario}`);
+      const res = await API.get(`/api/tienda/recompensas/puntosUsuario/${idUsuario}`);
       setPuntos(res.data[0].user_puntos);
       setIsDataUpdated(true);
     } catch (error) {
@@ -60,7 +58,7 @@ export default function RecompensasCliente() {
     }
 
     try {
-      const res = await axios.post(`${BACKEND_URL}/api/tienda/recompensas/reclamar/${idUsuario}`, { id_recompensa });
+      const res = await API.post(`/api/tienda/recompensas/reclamar/${idUsuario}`, { id_recompensa });
       if (res.status === 200) {
         Swal.fire({
           icon: 'success',

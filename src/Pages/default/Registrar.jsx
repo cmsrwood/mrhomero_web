@@ -3,8 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import logo from '/logo.png'
-
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+import API from '../../config/Api';
 export default function Registrar() {
 
   const navigate = useNavigate();
@@ -39,7 +38,7 @@ export default function Registrar() {
         password: user.password,
         confirmPassword: user.confirmPassword
       }
-      const res = await axios.post(`${BACKEND_URL}/api/auth/registrar`, data);
+      const res = await API.post(`/api/auth/registrar`, data);
       if (res.status === 200) {
         Swal.fire({
           icon: 'success',

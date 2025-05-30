@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+import API from '../../config/Api';
 
 export default function Recuperar() {
     const navigate = useNavigate();
@@ -17,7 +16,7 @@ export default function Recuperar() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post(`${BACKEND_URL}/api/auth/recuperar`, userEmailRecuperar);
+            const res = await API.post(`/api/auth/recuperar`, userEmailRecuperar);
             if (res.status === 200) {
                 Swal.fire({
                     icon: 'success',

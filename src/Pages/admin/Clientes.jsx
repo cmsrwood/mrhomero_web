@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import axios from 'axios';
 import { driver } from 'driver.js'
 import "driver.js/dist/driver.css"
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+import API from '../../config/Api';
 
 export default function Clientes() {
     const driverObj = driver({
@@ -111,7 +110,7 @@ export default function Clientes() {
         const fetchData = async () => {
             try {
                 setIsLoading(true);
-                const res = await axios.get(`${BACKEND_URL}/api/personas/clientes/`);
+                const res = await API.get(`/api/personas/clientes/`);
                 setClientes(res.data);
                 setIsDataUpdated(false);
             } catch (error) {
@@ -158,7 +157,7 @@ export default function Clientes() {
                 return;
             }
             setIsUploading(id);
-            const res = await axios.put(`${BACKEND_URL}/api/personas/clientes/eliminar/${id}`);
+            const res = await API.put(`/api/personas/clientes/eliminar/${id}`);
 
             if (res.status === 200) {
                 Swal.fire({
@@ -193,7 +192,7 @@ export default function Clientes() {
                 return;
             }
             setIsUploading(id);
-            const res = await axios.put(`${BACKEND_URL}/api/personas/clientes/restaurar/${id}`);
+            const res = await API.put(`/api/personas/clientes/restaurar/${id}`);
             if (res.status === 200) {
                 Swal.fire({
                     icon: 'success',

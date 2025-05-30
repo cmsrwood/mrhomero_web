@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Buscador from '../../components/Buscador'
 import Swal from 'sweetalert2'
-import axios from 'axios'
 import { driver } from 'driver.js';
 import "driver.js/dist/driver.css";
-
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
+import API from '../../config/Api';
 
 export default function Empleados() {
 
@@ -36,7 +34,7 @@ export default function Empleados() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put(`${BACKEND_URL}/api/personas/empleados/crear`, emp);
+      const res = await API.put(`/api/personas/empleados/crear`, emp);
       if (res.status === 200) {
         Swal.fire('Empleado creado', res.data, 'success');
         setEmp({
@@ -66,7 +64,7 @@ export default function Empleados() {
     const fechData = async () => {
       try {
         const [empleadosRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/personas/empleados/`)
+          API.get(`/api/personas/empleados/`)
         ]);
         setEmpleados(empleadosRes.data)
       } catch (error) {
@@ -81,7 +79,7 @@ export default function Empleados() {
   const handleEdit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put(`${BACKEND_URL}/api/personas/empleados/actualizar/`, empEdit);
+      const res = await API.put(`/api/personas/empleados/actualizar/`, empEdit);
       if (res.status === 200) {
         Swal.fire('Empleado editado', res.data, 'success');
         setIsDataUpdated(true);
@@ -125,7 +123,7 @@ export default function Empleados() {
       if (!response.isConfirmed) {
         return;
       }
-      const res = await axios.put(`${BACKEND_URL}/api/personas/empleados/eliminar/${id}`);
+      const res = await API.put(`/api/personas/empleados/eliminar/${id}`);
       if (res.status === 200) {
         Swal.fire('Empleado eliminado', res.data, 'success');
         setIsDataUpdated(true);

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from "react-router-dom";
 import { NumericFormat } from 'react-number-format';
-import axios from 'axios';
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+import API from '../config/Api';
 
 export default function Producto() {
     const [producto, setProducto] = useState(null);
@@ -15,7 +14,7 @@ export default function Producto() {
         const fetchData = async () => {
             try {
                 setIsLoading(true);
-                const res = await axios.get(`${BACKEND_URL}/api/tienda/productos/${idProducto}`);
+                const res = await API.get(`/api/tienda/productos/${idProducto}`);
                 setProducto(res.data);
             } catch (error) {
                 console.log(error);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
+
 import CustomChart from '../../components/CustomChart';
-import axios from 'axios';
 import moment from 'moment';
 import Typewriter from "typewriter-effect";
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -12,7 +12,8 @@ import '../../styles/style.css'
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
 import { NumericFormat } from 'react-number-format';
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
+import API from '../../config/Api';
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:4400';
 
 export default function Dashboard() {
 
@@ -123,12 +124,12 @@ export default function Dashboard() {
     const fetchData = async () => {
       try {
         const [ventasMensualesRes, productosMasVendidosRes, productosVendidosPorMesRes, productosVendidosMesAnteriorRes, totalProductosVentasRes, totalProductosVentasMesAnteriorRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/tienda/ventas/ventasMensuales/${ano}/${mes}`),
-          axios.get(`${BACKEND_URL}/api/tienda/ventas/productosMasVendidos/${ano}/${mes}`),
-          axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaProductosVendidosPorMes/${ano}/${mes}`),
-          axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaProductosVendidosPorMes/${mes - 1 <= 0 ? ano - 1 : ano}/${mes - 1 <= 0 ? 12 : mes - 1}`),
-          axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaVentasMes/${ano}/${mes}`),
-          axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaVentasMes/${mes - 1 <= 0 ? ano - 1 : ano}/${mes - 1 <= 0 ? 12 : mes - 1}`),
+          API.get(`/api/tienda/ventas/ventasMensuales/${ano}/${mes}`),
+          API.get(`/api/tienda/ventas/productosMasVendidos/${ano}/${mes}`),
+          API.get(`/api/tienda/ventas/cuentaProductosVendidosPorMes/${ano}/${mes}`),
+          API.get(`/api/tienda/ventas/cuentaProductosVendidosPorMes/${mes - 1 <= 0 ? ano - 1 : ano}/${mes - 1 <= 0 ? 12 : mes - 1}`),
+          API.get(`/api/tienda/ventas/cuentaVentasMes/${ano}/${mes}`),
+          API.get(`/api/tienda/ventas/cuentaVentasMes/${mes - 1 <= 0 ? ano - 1 : ano}/${mes - 1 <= 0 ? 12 : mes - 1}`),
         ]);
 
         setVentasMensuales(ventasMensualesRes.data);
@@ -174,7 +175,7 @@ export default function Dashboard() {
     const fetchData = async () => {
       try {
         const [IARes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/tienda/ventas/reporteIA/${ano}`),
+          API.get(`/api/tienda/ventas/reporteIA/${ano}`),
         ]);
         setIA(IARes.data);
       } catch (error) {
@@ -191,7 +192,7 @@ export default function Dashboard() {
     const fetchData = async () => {
       try {
         const [IARes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/tienda/ventas/reporteIA/${ano}/${mes}`),
+          API.get(`/api/tienda/ventas/reporteIA/${ano}/${mes}`),
         ]);
         setIA(IARes.data);
       } catch (error) {
