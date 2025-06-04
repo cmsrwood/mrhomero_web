@@ -60,8 +60,8 @@ export default function CategoriaMenu() {
             try {
                 setIsLoading(true);
                 const [productosRes, categoriaRes] = await Promise.all([
-                    API.get(`${BACKEND_URL}/api/tienda/productos/categoria/${categoriaId}`),
-                    API.get(`${BACKEND_URL}/api/tienda/categorias/${categoriaId}`),
+                    API.get(`/api/tienda/productos/categoria/${categoriaId}`),
+                    API.get(`/api/tienda/categorias/${categoriaId}`),
                 ]);
                 setProductos(productosRes.data);
                 setCategoria(categoriaRes.data);

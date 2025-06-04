@@ -218,7 +218,7 @@ export default function Categoria() {
         foto: ''
       };
 
-      const res = await API.post(`${BACKEND_URL}/api/tienda/productos/crear`, productoData);
+      const res = await API.post(`/api/tienda/productos/crear`, productoData);
 
       if (res.status === 200) {
         const formData = new FormData();
