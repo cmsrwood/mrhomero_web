@@ -330,6 +330,7 @@ export default function Proveedores() {
                     </tr>
                 </thead>
                 <tbody id='proveedor'>
+                    {proveedores.length === 0 && <tr><td colSpan="8" className="text-center">No hay proveedores</td></tr>}
                     {proveedores.map(proveedor => (
                         <tr key={proveedor.id_proveedor}>
                             <th>{proveedor.id_proveedor}</th>

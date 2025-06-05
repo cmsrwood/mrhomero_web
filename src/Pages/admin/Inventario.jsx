@@ -376,6 +376,11 @@ export default function Inventario() {
                 </tr>
               </thead>
               <tbody>
+                {inventario.length === 0 && (
+                  <tr>
+                    <td colSpan="10" className="text-center">No hay productos en el inventario</td>
+                  </tr>
+                )}
                 {inventario.map((ingrediente) => (
                   <tr key={ingrediente.id_producto_inv}>
                     <th scope="row">{ingrediente.id_producto_inv}</th>

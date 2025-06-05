@@ -513,7 +513,7 @@ export default function RecompensasAdmin() {
         >
           {recompensasFiltradas.length === 0 && (
             <div className="d-flex justify-content-center align-items-center h-100">
-              <h1>No hay recompensas</h1>
+              <h1>No hay recompensas disponibles</h1>
             </div>
           )}
           {recompensasFiltradas.map((recompensa) => (

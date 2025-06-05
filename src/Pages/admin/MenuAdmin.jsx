@@ -10,6 +10,7 @@ import API from "../../config/Api";
 export default function MenuAdmin() {
 
   const [categorias, setCategorias] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
   const [isDataUpdated, setIsDataUpdated] = useState(false)
   const [imagePreview, setImagePreview] = useState('')
   const [estadoFiltro, setEstadoFiltro] = useState(1);
@@ -17,6 +18,7 @@ export default function MenuAdmin() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
         const [categoriasRes] = await Promise.all([
           API.get(`/api/tienda/categorias/`),
         ]);
@@ -24,6 +26,7 @@ export default function MenuAdmin() {
       } catch (error) {
         console.log(error);
       }
+      setIsLoading(false);
       setIsDataUpdated(false);
     };
     fetchData();
@@ -493,6 +496,9 @@ export default function MenuAdmin() {
           </div>
         </div>
       </div>
+      {categoriasFiltradas.length === 0 && (
+        <h1 className="text-center">No hay categorias disponibles.</h1>
+      )}
       <div id='contenedorCategorias' className="row row-cols-1 row-cols-sm-2 row-cols-lg-4">
         {categoriasFiltradas.map(cat => (
           <div id='cardCategoria' className="col my-2" key={cat.id_categoria}>

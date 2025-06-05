@@ -295,6 +295,11 @@ export default function Clientes() {
                         </tr>
                     </thead>
                     <tbody>
+                        {clientesFiltrados.length === 0 && !isLoading && (
+                            <tr>
+                                <td colSpan="6" className="text-center">No se encontraron clientes.</td>
+                            </tr>
+                        )}
                         {isLoading ?
                             renderFila(4)
                             :

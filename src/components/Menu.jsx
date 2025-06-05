@@ -74,6 +74,11 @@ export default function Menu() {
         <div className="">
             <div className="container">
                 <h1 className="text-warning text-center mb-4">Menu</h1>
+                {categorias.length === 0 && !isLoading && (
+                    <h1 className="text-center">
+                        No hay categorias disponibles.
+                    </h1>
+                )}
                 <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-5">
                     {isLoading && renderIsLoading(6)}
                     {categorias.map((categoria) => (
