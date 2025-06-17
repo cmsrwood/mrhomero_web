@@ -44,7 +44,7 @@ export default function Footer() {
                         <p className="fsfooter">
                             <span className="fw-bold fstext">Descarga nuestra APP</span> <br />
                         </p>
-                        <a href="../src/downloads/mrhomero.apk" target="_blank"><img src={googlePlay} width={150} /></a>
+                        <a href="/downloads/mrhomero.apk" target="_blank"><img src={googlePlay} width={150} /></a>
                         <Link><img src={appStore} width={150} /></Link>
 
                     </div>
